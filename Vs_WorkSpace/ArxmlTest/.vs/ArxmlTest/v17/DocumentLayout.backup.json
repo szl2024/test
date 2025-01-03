@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\WorkSpace\\Vs_WorkSpace\\ArxmlTest\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9730F4BE-CC5A-444A-994B-40C6F44C4700}|ArxmlTest.vcxproj|D:\\WorkSpace\\Vs_WorkSpace\\ArxmlTest\\ArxmlTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9730F4BE-CC5A-444A-994B-40C6F44C4700}|ArxmlTest.vcxproj|solutionrelative:ArxmlTest.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ArxmlTest.cpp",
+              "DocumentMoniker": "D:\\WorkSpace\\Vs_WorkSpace\\ArxmlTest\\ArxmlTest.cpp",
+              "RelativeDocumentMoniker": "ArxmlTest.cpp",
+              "ToolTip": "D:\\WorkSpace\\Vs_WorkSpace\\ArxmlTest\\ArxmlTest.cpp",
+              "RelativeToolTip": "ArxmlTest.cpp",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAIsAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-16T08:38:24.922Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

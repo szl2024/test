@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BDEC23DB-96D0-45C2-81F5-EC70BACB75BF}|ConsoleApplication1.vcxproj|D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\ConsoleApplication1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BDEC23DB-96D0-45C2-81F5-EC70BACB75BF}|ConsoleApplication1.vcxproj|solutionrelative:ConsoleApplication1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDEC23DB-96D0-45C2-81F5-EC70BACB75BF}|ConsoleApplication1.vcxproj|D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\include\\tinyxml.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BDEC23DB-96D0-45C2-81F5-EC70BACB75BF}|ConsoleApplication1.vcxproj|solutionrelative:include\\tinyxml.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDEC23DB-96D0-45C2-81F5-EC70BACB75BF}|ConsoleApplication1.vcxproj|D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\include\\tinystr.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BDEC23DB-96D0-45C2-81F5-EC70BACB75BF}|ConsoleApplication1.vcxproj|solutionrelative:include\\tinystr.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "tinystr.h",
+              "DocumentMoniker": "D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\include\\tinystr.h",
+              "RelativeDocumentMoniker": "include\\tinystr.h",
+              "ToolTip": "D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\include\\tinystr.h",
+              "RelativeToolTip": "include\\tinystr.h",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-13T11:13:28.287Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "tinyxml.h",
+              "DocumentMoniker": "D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\include\\tinyxml.h",
+              "RelativeDocumentMoniker": "include\\tinyxml.h",
+              "ToolTip": "D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\include\\tinyxml.h",
+              "RelativeToolTip": "include\\tinyxml.h",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAAFIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-13T11:13:10.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ConsoleApplication1.cpp",
+              "DocumentMoniker": "D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\ConsoleApplication1.cpp",
+              "RelativeDocumentMoniker": "ConsoleApplication1.cpp",
+              "ToolTip": "D:\\WorkSpace\\Vs_WorkSpace\\ConsoleApplication1\\ConsoleApplication1.cpp",
+              "RelativeToolTip": "ConsoleApplication1.cpp",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAqwG4AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-13T10:21:35.84Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
