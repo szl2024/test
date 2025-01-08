@@ -29,3 +29,9 @@ sudo apt-get install graphviz
 ```bash
 brew install graphviz
 ```
+### unzip 설치
+
+1. Ubuntu/Debian:
+```bash
+sudo apt-get install unzip
+```

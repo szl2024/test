@@ -17,37 +17,37 @@ using namespace std;
 using namespace boost;
 using namespace boost::property_tree;
 
-// 定义 PORT 结构体
+// PORT 구조체 정의
 struct PORT {
     string PORT_NAME;
     string CS_SR;
-    string IN_OUT; // 根据父节点设置
+    string IN_OUT; // 부모 노드에 의해 설정
 };
 
-// 定义 SWC 结构体
+// SWC 구조체 정의
 struct SWC {
     string SWC_NAME;
     vector<PORT> ports;
 };
 
-// 读取 ARXML 文件并返回解析后的 ptree 对象
+// ARXML 파일을 읽고 파싱된 ptree 객체 반환
 ptree readArxmlFile(const std::string& filename) {
     ptree pt;
     try {
         std::ifstream file(filename);
         if (!file) {
-            throw std::runtime_error("文件不存在或无法打开: " + filename);
+            throw std::runtime_error("파일이 존재하지 않거나 열 수 없습니다: " + filename);
         }
-        // 使用 xml_parser::no_comments 和 xml_parser::trim_whitespace 选项
+        // xml_parser::no_comments 및 xml_parser::trim_whitespace 옵션 사용
         read_xml(file, pt, xml_parser::no_comments | xml_parser::trim_whitespace);
     } catch (const std::exception& e) {
-        spdlog::error("错误: {}", e.what());
+        spdlog::error("오류: {}", e.what());
         throw;
     }
     return pt;
 }
 
-// 获取命名空间前缀
+// 네임스페이스 접두사 가져오기
 string getNamespacePrefix(const ptree& pt) {
     string nsPrefix = "";
     if (pt.count("<xmlattr>")) {
@@ -61,7 +61,7 @@ string getNamespacePrefix(const ptree& pt) {
     return nsPrefix;
 }
 
-// 递归遍历 ptree 并提取 SWC 信息
+// ptree 재귀적으로 순회하고 SWC 정보 추출
 void traverseAndExtractSWC(const ptree& pt, const string& nsPrefix, vector<SWC>& swcs) {
     for (const auto& node : pt) {
         if (node.first == nsPrefix + "APPLICATION-SW-COMPONENT-TYPE") {
@@ -69,21 +69,21 @@ void traverseAndExtractSWC(const ptree& pt, const string& nsPrefix, vector<SWC>&
             try {
                 swc.SWC_NAME = node.second.get<std::string>(nsPrefix + "SHORT-NAME");
             } catch (const std::exception& e) {
-                spdlog::error("获取 SHORT-NAME 时发生错误: {}", e.what());
+                spdlog::error("SHORT-NAME을 가져오는 중 오류 발생: {}", e.what());
                 continue;
             }
 
-            // 提取 PORTS 信息
+            // PORTS 정보 추출
             if (node.second.count(nsPrefix + "PORTS")) {
                 for (const auto& portNode : node.second.get_child(nsPrefix + "PORTS")) {
                     if (portNode.first == nsPrefix + "P-PORT-PROTOTYPE" || portNode.first == nsPrefix + "R-PORT-PROTOTYPE") {
                         PORT port;
                         try {
                             port.PORT_NAME = portNode.second.get<std::string>(nsPrefix + "SHORT-NAME");
-                            // 初始化 CS_SR
+                            // CS_SR 초기화
                             port.CS_SR = "";
 
-                            // 检查 REQUIRED-INTERFACE-TREF 节点
+                            // REQUIRED-INTERFACE-TREF 노드 확인
                             if (portNode.second.count(nsPrefix + "REQUIRED-INTERFACE-TREF")) {
                                 for (const auto& requiredInterfaceNode : portNode.second.get_child(nsPrefix + "REQUIRED-INTERFACE-TREF")) {
                                     if (requiredInterfaceNode.first == "<xmlattr>") {
@@ -100,7 +100,7 @@ void traverseAndExtractSWC(const ptree& pt, const string& nsPrefix, vector<SWC>&
                                 }
                             }
 
-                            // 检查 PROVIDED-INTERFACE-TREF 节点 (仅适用于 P-PORT-PROTOTYPE)
+                            // PROVIDED-INTERFACE-TREF 노드 확인 (P-PORT-PROTOTYPE에만 해당)
                             if (portNode.first == nsPrefix + "P-PORT-PROTOTYPE" && portNode.second.count(nsPrefix + "PROVIDED-INTERFACE-TREF")) {
                                 for (const auto& providedInterfaceNode : portNode.second.get_child(nsPrefix + "PROVIDED-INTERFACE-TREF")) {
                                     if (providedInterfaceNode.first == "<xmlattr>") {
@@ -117,14 +117,14 @@ void traverseAndExtractSWC(const ptree& pt, const string& nsPrefix, vector<SWC>&
                                 }
                             }
 
-                            // 根据父节点名称设置 IN_OUT 成员
+                            // 부모 노드 이름에 따라 IN_OUT 멤버 설정
                             if (portNode.first == nsPrefix + "P-PORT-PROTOTYPE") {
                                 port.IN_OUT = "OUT";
                             } else if (portNode.first == nsPrefix + "R-PORT-PROTOTYPE") {
                                 port.IN_OUT = "IN";
                             }
                         } catch (const std::exception& e) {
-                            spdlog::error("获取 PORT 详细信息时发生错误: {}", e.what());
+                            spdlog::error("PORT 세부 정보를 가져오는 중 오류 발생: {}", e.what());
                             continue;
                         }
                         swc.ports.push_back(port);
@@ -134,21 +134,21 @@ void traverseAndExtractSWC(const ptree& pt, const string& nsPrefix, vector<SWC>&
 
             swcs.push_back(swc);
         }
-        // 递归遍历子节点
+        // 하위 노드 재귀적으로 순회
         traverseAndExtractSWC(node.second, nsPrefix, swcs);
     }
 }
 
-// 提取并存储 APPLICATION-SW-COMPONENT-TYPE 节点下的 SHORT-NAME 节点内容
+// APPLICATION-SW-COMPONENT-TYPE 노드 아래의 SHORT-NAME 노드 내용 추출 및 저장
 void extractAndStoreSWC(const ptree& pt, std::vector<SWC>& swcs) {
     try {
-        // 获取命名空间前缀
+        // 네임스페이스 접두사 가져오기
         std::string nsPrefix = getNamespacePrefix(pt);
 
-        // 递归遍历整个 ptree
+        // 전체 ptree 재귀적으로 순회
         traverseAndExtractSWC(pt, nsPrefix, swcs);
 
-        // 在控制台上输出 SWC 信息
+        // 콘솔에 SWC 정보 출력
         for (const auto& swc : swcs) {
             std::cout << "SWC {" << std::endl;
             std::cout << "  SWC_NAME: " << swc.SWC_NAME << std::endl;
@@ -157,17 +157,17 @@ void extractAndStoreSWC(const ptree& pt, std::vector<SWC>& swcs) {
                 std::cout << "    PORT {" << std::endl;
                 std::cout << "      PORT_NAME: " << port.PORT_NAME << std::endl;
                 std::cout << "      CS_SR: " << port.CS_SR << std::endl;
-                std::cout << "      IN_OUT: " << port.IN_OUT << std::endl; // 输出 IN_OUT 成员
+                std::cout << "      IN_OUT: " << port.IN_OUT << std::endl; // IN_OUT 멤버 출력
                 std::cout << "    }" << std::endl;
             }
             std::cout << "  ]" << std::endl;
             std::cout << "}" << std::endl;
         }
 
-        // 将 SWC 信息写入文件
+        // SWC 정보 파일에 쓰기
         std::ofstream outputFile("output.txt");
         if (!outputFile) {
-            spdlog::error("无法打开 output.txt 文件进行写入");
+            spdlog::error("output.txt 파일을 쓰기 위해 열 수 없습니다");
             return;
         }
 
@@ -179,7 +179,7 @@ void extractAndStoreSWC(const ptree& pt, std::vector<SWC>& swcs) {
                 outputFile << "    PORT {" << std::endl;
                 outputFile << "      PORT_NAME: " << port.PORT_NAME << std::endl;
                 outputFile << "      CS_SR: " << port.CS_SR << std::endl;
-                outputFile << "      IN_OUT: " << port.IN_OUT << std::endl; // 输出 IN_OUT 成员
+                outputFile << "      IN_OUT: " << port.IN_OUT << std::endl; // IN_OUT 멤버 출력
                 outputFile << "    }" << std::endl;
             }
             outputFile << "  ]" << std::endl;
@@ -188,35 +188,35 @@ void extractAndStoreSWC(const ptree& pt, std::vector<SWC>& swcs) {
 
         outputFile.close();
     } catch (const std::exception& e) {
-        spdlog::error("解析 ARXML 时发生错误: {}", e.what());
+        spdlog::error("ARXML 파싱 중 오류 발생: {}", e.what());
     }
 }
 
 int drawGraph(const std::vector<SWC>& swcs) {
     Graph g;
 
-    // 添加顶点
+    // 정점 추가
     std::map<std::string, Vertex> vertexMap;
     for (const auto& swc : swcs) {
         Vertex v = add_vertex({swc.SWC_NAME}, g);
         vertexMap[swc.SWC_NAME] = v;
     }
 
-    // 添加边并检查重复输入端口
+    // 간선 추가 및 중복 입력 포트 확인
     std::map<std::pair<std::string, std::string>, std::map<std::string, int>> edgeMap; // {sourceSWC, targetSWC} -> {CS_SR_type -> count}
     for (const auto& swc : swcs) {
         for (const auto& port : swc.ports) {
             if (port.IN_OUT == "OUT") {
-                // 查找目标 SWC
+                // 대상 SWC 찾기
                 for (const auto& targetSWC : swcs) {
                     for (const auto& targetPort : targetSWC.ports) {
                         if (targetPort.IN_OUT == "IN" && targetPort.PORT_NAME == port.PORT_NAME) {
-                            // 更新边的 CS_SR 类型计数
+                            // 간선의 CS_SR 유형 카운트 업데이트
                             edgeMap[{swc.SWC_NAME, targetSWC.SWC_NAME}][port.CS_SR]++;
 
-                            // 如果是重复输入端口，则警告
+                            // 중복 입력 포트가 있는 경우 경고
                             if (edgeMap[{swc.SWC_NAME, targetSWC.SWC_NAME}][port.CS_SR] > 1) {
-                                spdlog::warn("检测到重复输入端口: {} 的 {} 端口已从 {} 接收输入", targetSWC.SWC_NAME, targetPort.PORT_NAME, swc.SWC_NAME);
+                                spdlog::warn("중복 입력 포트 감지: {}의 {} 포트가 {}에서 입력을 받고 있습니다", targetSWC.SWC_NAME, targetPort.PORT_NAME, swc.SWC_NAME);
                             }
                         }
                     }
@@ -225,7 +225,7 @@ int drawGraph(const std::vector<SWC>& swcs) {
         }
     }
 
-    // 添加边到图中
+    // 그래프에 간선 추가
     for (const auto& edgePair : edgeMap) {
         const std::string& sourceSWC = edgePair.first.first;
         const std::string& targetSWC = edgePair.first.second;
@@ -238,10 +238,10 @@ int drawGraph(const std::vector<SWC>& swcs) {
             if (!edgeLabel.empty()) {
                 edgeLabel += ", ";
             }
-            edgeLabel += fmt::format("{}: {}", csSrType, count); // 修改为 CS_SR: count 的形式
+            edgeLabel += fmt::format("{}: {}", csSrType, count); // CS_SR: count 형식으로 변경
         }
 
-        EdgeProperties edgeProps{1.0, edgeLabel}; // weight 是 double 类型，因此设置为 1.0
+        EdgeProperties edgeProps{1.0, edgeLabel}; // weight는 double 유형이므로 1.0로 설정
         add_edge(vertexMap[sourceSWC], vertexMap[targetSWC], edgeProps, g);
     }
 
@@ -255,21 +255,22 @@ int drawGraph(const std::vector<SWC>& swcs) {
     std::string cmd = "dot -Tsvg graph.dot -o graph.svg";
     return system(cmd.c_str());
 }
+
 int main() {
     
-    //std::string arxmlFilename = "OSDC_Test_Bad_swc.arxml"; // 直接指定文件名
+    //std::string arxmlFilename = "OSDC_Test_Bad_swc.arxml"; // 파일 이름 직접 지정
     std::string arxmlFilename;
-    std::cout << "请输入 ARXML 文件名: ";
+    std::cout << "ARXML 파일 이름을 입력하세요: ";
     std::cin >> arxmlFilename;
 
     try {
         ptree pt = readArxmlFile(arxmlFilename);
-        //printXmlContent(pt);  // 打印 ARXML 文件内容
+        //printXmlContent(pt);  // ARXML 파일 내용 출력
         std::vector<SWC> swcs;
-        extractAndStoreSWC(pt, swcs);  // 提取并存储 APPLICATION-SW-COMPONENT-TYPE 节点下的 SHORT-NAME 节点内容
-        drawGraph(swcs); // 将 swcs 向量传递给 drawGraph 函数
+        extractAndStoreSWC(pt, swcs);  // APPLICATION-SW-COMPONENT-TYPE 노드 아래의 SHORT-NAME 노드 내용 추출 및 저장
+        drawGraph(swcs); // swcs 벡터를 drawGraph 함수에 전달
     } catch (const std::exception& e) {
-        spdlog::error("错误: {}", e.what());
+        spdlog::error("오류: {}", e.what());
         return 1;
     }
     return 0;
