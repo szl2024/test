@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ldi>
+  <element name="CL1CM2">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="CL1CM2.CL1CM2CLS1_t">
+    <uses provider="CL1CM2.CL1CM2CLS2_t" strength="1"></uses>
+    <uses provider="CL1CM2.CL1CM2CLS3_t" strength="1"></uses>
+    <property name="coverage.m1">18.0000</property>
+  </element>
+  <element name="CL1CM2.CL1CM2CLS2_t">
+    <property name="coverage.m1">8.0000</property>
+  </element>
+  <element name="CL1CM2.CL1CM2CLS3_t">
+    <uses provider="CL1CM2.CL1CM2CLS2_t" strength="2"></uses>
+    <property name="coverage.m1">12.0000</property>
+  </element>
+</ldi>
