@@ -1,6 +1,6 @@
 @APIMetric(
     id = "coverage.m6_percent",
-    name = "M6_Result",
+    name = "M6(Communication Interference Impact)",
     lowerIsBetter = "false",       
     precision = "percent",
     aggregate = "none"

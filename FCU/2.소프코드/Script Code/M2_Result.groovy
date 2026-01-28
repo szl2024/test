@@ -1,6 +1,6 @@
 @APIMetric(
     id = "coverage.m2_1_Percent",
-    name = "M2_Result",
+    name = "M2(Structural System Complexity)",
     lowerIsBetter = "false",       
     precision = "double",
     aggregate = "none"

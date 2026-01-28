@@ -1,6 +1,6 @@
 @APIMetric(
     id = "coverage.m4_a",
-    name = "M4_Result",
+    name = "M4(Horizontal Separation Violation)",
     lowerIsBetter = "false",
     precision = "float",
     aggregate = "none"

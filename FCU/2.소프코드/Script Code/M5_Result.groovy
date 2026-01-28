@@ -1,6 +1,6 @@
 @APIMetric(
     id = "coverage.m5_percent",
-    name = "M5_Result",
+    name = "M5(Safety Decomposition Impact)",
     lowerIsBetter = "false",       
     precision = "percent",
     aggregate = "none"

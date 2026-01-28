@@ -1,6 +1,6 @@
 @APIMetric(
     id = "coverage.m3_a",
-    name = "M3_Result",
+    name = "M3(Vertical Dependency Inversion)",
     lowerIsBetter = "false",
     precision = "float",
     aggregate = "none"
