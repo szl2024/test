@@ -18,6 +18,9 @@ import (
 
 // 1. Windows 경로 읽기: 콘솔에 안내 문구를 출력하고 입력을 받은 뒤, `M1_Public_Data.SrcPath`에 저장합니다.
 func ReadWindowsPath() {
+	if strings.TrimSpace(M1_Public_Data.SrcPath) != "" {
+		return
+	}
 	fmt.Print("모델이 저장된 Windows 경로를 입력하세요： ")
 
 	reader := bufio.NewReader(os.Stdin)

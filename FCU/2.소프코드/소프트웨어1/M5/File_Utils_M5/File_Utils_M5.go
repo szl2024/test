@@ -15,10 +15,10 @@ import (
 // PrepareM5OutputDir M5의 출력 디렉터리를 초기화하고 준비한다.
 //
 // 프로세스:
-//   1) 현재 작업 디렉터리 basePath를 가져온다.  
-//   2) <basePath>/M5/output 경로를 생성한다.  
-//   3) output 디렉터리가 이미 존재하면 삭제 후 새로 만든다.  
-//   4) 경로를 Public_data.M5OutputlPath에 저장한다.  
+//   1) 현재 작업 디렉터리 basePath를 가져온다.
+//   2) <basePath>/M5/output 경로를 생성한다.
+//   3) output 디렉터리가 이미 존재하면 삭제 후 새로 만든다.
+//   4) 경로를 Public_data.M5OutputlPath에 저장한다.
 func PrepareM5OutputDir() error {
 	basePath, err := os.Getwd()
 	if err != nil {
@@ -46,14 +46,14 @@ func PrepareM5OutputDir() error {
 // M5.ldi.xml을 생성한다 (m5 및 m5demo 속성 포함).
 //
 // 계산 로직:
-//   1) component_info.csv을 열고 내용을 읽는다.  
-//   2) 두 번째 행부터 읽는다:  
-//        - row[0] = 컴포넌트 이름  
-//        - row[4] = ASIL 분리 여부(Y/N)  
-//   3) asilSplit == "Y"이면 coverage.m5 = 1, 그렇지 않으면 = 0.  
-//   4) 각 컴포넌트에 대해 coverage.m5demo = 1을 고정 추가한다 (데모용 기준값).  
-//   5) 모든 컴포넌트를 <element name="..."><property .../></element> 형태로 변환하여  
-//      M5/output/M5.ldi.xml에 기록한다.  
+//   1) component_info.csv을 열고 내용을 읽는다.
+//   2) 두 번째 행부터 읽는다:
+//        - row[0] = 컴포넌트 이름
+//        - row[3] = ASIL 분리 여부(Y/N)
+//   3) asilSplit == "Y"이면 coverage.m5 = 1, 그렇지 않으면 = 0.
+//   4) 각 컴포넌트에 대해 coverage.m5demo = 1을 고정 추가한다 (데모용 기준값).
+//   5) 모든 컴포넌트를 <element name="..."><property .../></element> 형태로 변환하여
+//      M5/output/M5.ldi.xml에 기록한다.
 func GenerateM5LDIXml() error {
 	type Property struct {
 		XMLName xml.Name `xml:"property"`
@@ -91,9 +91,9 @@ func GenerateM5LDIXml() error {
 	var result Root
 	// 첫 행은 헤더라고 가정하고 rows[1:]부터 처리 (기존 xlsx 로직과 동일)
 	for _, row := range rows[1:] {
-		if len(row) >= 5 {
+		if len(row) >= 4 {
 			name := strings.TrimSpace(row[0])
-			asilSplit := strings.TrimSpace(row[4])
+			asilSplit := strings.TrimSpace(row[3])
 
 			m5 := "0"
 			if asilSplit == "Y" {

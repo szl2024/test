@@ -1,13 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <System>
-  <P Name="Location">[496, 332, 3058, 1785]</P>
+  <P Name="Location">[8, 1, 2552, 1384]</P>
+  <P Name="Open">on</P>
   <P Name="ReportName">simulink-default.rpt</P>
-  <P Name="SIDHighWatermark">62</P>
+  <P Name="SIDHighWatermark">69</P>
+  <Block BlockType="Inport" Name="CL1STAT" SID="63">
+    <P Name="Position">[735, 313, 765, 327]</P>
+    <P Name="ZOrder">2</P>
+  </Block>
+  <Block BlockType="Inport" Name="CL1STAT1" SID="64">
+    <P Name="Position">[745, 388, 775, 402]</P>
+    <P Name="ZOrder">3</P>
+    <P Name="Port">2</P>
+  </Block>
+  <Block BlockType="Inport" Name="CL1STAT2" SID="65">
+    <P Name="Position">[700, 463, 730, 477]</P>
+    <P Name="ZOrder">4</P>
+    <P Name="Port">3</P>
+  </Block>
+  <Block BlockType="Inport" Name="CL1STAT3" SID="66">
+    <P Name="Position">[715, 538, 745, 552]</P>
+    <P Name="ZOrder">5</P>
+    <P Name="Port">4</P>
+  </Block>
   <Block BlockType="SubSystem" Name="CL1CM2" SID="1">
     <PortCounts in="4" out="3"/>
-    <P Name="Position">[410, 258, 880, 557]</P>
+    <P Name="Position">[915, 283, 1385, 582]</P>
     <P Name="ZOrder">1</P>
     <P Name="ContentPreviewEnabled">on</P>
     <System Ref="system_1"/>
   </Block>
+  <Block BlockType="Outport" Name="CM2CNTL1" SID="67">
+    <P Name="Position">[1550, 328, 1580, 342]</P>
+    <P Name="ZOrder">6</P>
+  </Block>
+  <Block BlockType="Outport" Name="CM2CNTL2" SID="68">
+    <P Name="Position">[1565, 428, 1595, 442]</P>
+    <P Name="ZOrder">7</P>
+    <P Name="Port">2</P>
+  </Block>
+  <Block BlockType="Outport" Name="CM2CNTL3" SID="69">
+    <P Name="Position">[1565, 528, 1595, 542]</P>
+    <P Name="ZOrder">8</P>
+    <P Name="Port">3</P>
+  </Block>
+  <Line>
+    <P Name="ZOrder">9</P>
+    <P Name="Src">63#out:1</P>
+    <P Name="Dst">1#in:1</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">11</P>
+    <P Name="Src">64#out:1</P>
+    <P Name="Dst">1#in:2</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">12</P>
+    <P Name="Src">65#out:1</P>
+    <P Name="Dst">1#in:3</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">13</P>
+    <P Name="Src">66#out:1</P>
+    <P Name="Dst">1#in:4</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">14</P>
+    <P Name="Src">1#out:1</P>
+    <P Name="Dst">67#in:1</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">15</P>
+    <P Name="Src">1#out:2</P>
+    <P Name="Dst">68#in:1</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">16</P>
+    <P Name="Src">1#out:3</P>
+    <P Name="Dst">69#in:1</P>
+  </Line>
 </System>

@@ -2,7 +2,6 @@
 <System>
   <P Name="Location">[8, 1, 2552, 1384]</P>
   <P Name="SystemRect">[-199.000000, -62.000000, 719.500000, 440.000000]</P>
-  <P Name="Open">on</P>
   <P Name="ZoomFactor">200</P>
   <Block BlockType="Inport" Name="CL1STAT" SID="2">
     <P Name="Position">[135, 8, 165, 22]</P>

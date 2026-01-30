@@ -1,4 +1,4 @@
-[L1] Name: CL1CM2	L1Ports(Weighted)=0.0	L2Count=3	L2Ports=6
+[L1] Name: CL1CM2	L1Ports(Weighted)=7.0	L2Count=3	L2Ports=6
 [L2] Name: CL1CM2CLS1_t	L2Ports=3	L3Count=2	L3Ports=3
 [L2] Name: CL1CM2CLS2_t	L2Ports=1	L3Count=2	L3Ports=4
 [L2] Name: CL1CM2CLS3_t	L2Ports=2	L3Count=2	L3Ports=3

@@ -9,17 +9,17 @@ import (
 	"path/filepath"
 	"strings"
 
-	"FCU_Tools/SWC_Dependence"
 	"FCU_Tools/Public_data"
+	"FCU_Tools/SWC_Dependence"
 )
 
 // PrepareM4OutputDir M4의 출력 디렉터리를 초기화하고 준비한다.
 //
 // 프로세스:
-//   1) 현재 작업 디렉터리 basePath를 가져온다.  
-//   2) <basePath>/M4/output 경로를 생성한다.  
-//   3) output 디렉터리가 이미 존재하면 삭제 후 새로 만든다.  
-//   4) 경로를 Public_data.M4OutputlPath에 저장하여 이후 모듈에서 사용한다.  
+//   1) 현재 작업 디렉터리 basePath를 가져온다.
+//   2) <basePath>/M4/output 경로를 생성한다.
+//   3) output 디렉터리가 이미 존재하면 삭제 후 새로 만든다.
+//   4) 경로를 Public_data.M4OutputlPath에 저장하여 이후 모듈에서 사용한다.
 func PrepareM4OutputDir() error {
 	basePath, err := os.Getwd()
 	if err != nil {
@@ -47,20 +47,20 @@ func PrepareM4OutputDir() error {
 // M4 지표를 계산하고 M4.ldi.xml 및 M4.txt를 생성한다.
 //
 // 계산 로직:
-//   1) SWC_Dependence.ExtractDependenciesRawFromASW 호출 → 모든 컴포넌트 연결을 읽는다 (원시 연결 정보 유지).  
-//   2) component_info.csv 열기 → 컴포넌트의 Manager 및 Layer 정보를 읽어 compMap에 저장한다.  
-//   3) 의존성 순회:  
-//        - 각 컴포넌트의 sourceCount(의존 총수)를 갱신한다.  
-//        - 위반 여부 검사:  
-//            * 같은 Layer인데 Manager가 다르면 → 위반.  
-//            * Cross Layer인 경우:  
-//                - from Layer > to Layer이고 from.Manager != to → 위반.  
-//                - from Layer < to Layer이고 to.Manager != from → 위반.  
-//        - 위반 발생 시: violationMap[from]에 횟수를 누적하고, M4.txt에 "from-->to" 한 줄 기록.  
-//   4) 각 컴포넌트에 대해 LDI 요소를 생성, 두 가지 속성 포함:  
-//        - coverage.m4     = 위반 연결 수  
-//        - coverage.m4demo = 전체 의존 수  
-//   5) XML로 직렬화하여 M4/output/M4.ldi.xml에 출력한다.  
+//   1) SWC_Dependence.ExtractDependenciesRawFromASW 호출 → 모든 컴포넌트 연결을 읽는다 (원시 연결 정보 유지).
+//   2) component_info.csv 열기 → 컴포넌트의 Manager 및 Layer 정보를 읽어 compMap에 저장한다.
+//   3) 의존성 순회:
+//        - 각 컴포넌트의 sourceCount(의존 총수)를 갱신한다.
+//        - 위반 여부 검사:
+//            * 같은 Layer인데 Manager가 다르면 → 위반.
+//            * Cross Layer인 경우:
+//                - from Layer > to Layer이고 from.Manager != to → 위반.
+//                - from Layer < to Layer이고 to.Manager != from → 위반.
+//        - 위반 발생 시: violationMap[from]에 횟수를 누적하고, M4.txt에 "from-->to" 한 줄 기록.
+//   4) 각 컴포넌트에 대해 LDI 요소를 생성, 두 가지 속성 포함:
+//        - coverage.m4     = 위반 연결 수
+//        - coverage.m4demo = 전체 의존 수
+//   5) XML로 직렬화하여 M4/output/M4.ldi.xml에 출력한다.
 func GenerateM4LDIXml() error {
 	type Property struct {
 		XMLName xml.Name `xml:"property"`
@@ -112,11 +112,11 @@ func GenerateM4LDIXml() error {
 	compMap := make(map[string]CompMeta)
 	// 첫 행은 헤더라고 가정하고 compRows[1:]부터 처리
 	for _, row := range compRows[1:] {
-		if len(row) >= 4 {
+		if len(row) >= 3 {
 			name := strings.TrimSpace(row[0])
 			manager := strings.TrimSpace(row[1])
 			var layer int
-			fmt.Sscanf(strings.TrimSpace(row[3]), "%d", &layer)
+			fmt.Sscanf(strings.TrimSpace(row[2]), "%d", &layer)
 			compMap[name] = CompMeta{Manager: manager, Layer: layer}
 		}
 	}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var HierarchyTable [][]string
@@ -41,12 +42,48 @@ func SetM2M3FilePath(path string) {
 	M2RqExcelPath = filepath.Join(path, "rq_versus_component.csv")
 	M3component_infoxlsxPath = filepath.Join(path, "component_info.csv")
 }
+
 // 터미널에 asw.csv 파일의 경로를 입력하고, 해당 경로를 ConnectorFilePath에 기록합니다.
 func InitConnectorFilePathFromUser() error {
 	var dir string
 	fmt.Print("asw.csv 등 파일의 경로를 입력하세요:")
 	if _, err := fmt.Scanln(&dir); err != nil {
 		return fmt.Errorf("읽기 실패: %v", err)
+	}
+
+	csvPath := filepath.Join(dir, "asw.csv")
+	if _, err := os.Stat(csvPath); os.IsNotExist(err) {
+		return fmt.Errorf("asw.csv 파일을 찾을 수 없습니다: %s", csvPath)
+	}
+
+	SetConnectorFilePath(csvPath)
+	SetM2M3FilePath(dir)
+	return nil
+}
+
+// InitOutputDirectoryWithConnectorDir는 Output 경로를 초기화하고,
+// 입력 디렉터리에서 asw.csv 경로를 기록합니다.
+func InitOutputDirectoryWithConnectorDir(dir string) error {
+	if strings.TrimSpace(dir) == "" {
+		return fmt.Errorf("입력 경로가 비어 있습니다")
+	}
+
+	baseDir, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("출력 디렉터리 초기화에 실패했습니다: 현재 작업 디렉터리를 가져올 수 없습니다: %v", err)
+	}
+
+	outputPath := filepath.Join(baseDir, "Output")
+	OutputDir = outputPath
+
+	if _, err := os.Stat(outputPath); err == nil {
+		if err := os.RemoveAll(outputPath); err != nil {
+			return fmt.Errorf("출력 디렉터리 초기화에 실패했습니다: 이전 Output 디렉터리 삭제에 실패했습니다: %v", err)
+		}
+	}
+
+	if err := os.Mkdir(outputPath, 0755); err != nil {
+		return fmt.Errorf("출력 디렉터리 초기화에 실패했습니다: Output 디렉터리 생성에 실패했습니다: %v", err)
 	}
 
 	csvPath := filepath.Join(dir, "asw.csv")

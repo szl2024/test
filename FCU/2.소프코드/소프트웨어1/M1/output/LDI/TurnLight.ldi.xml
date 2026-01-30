@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ldi>
+  <element name="TurnLight">
+    <property name="coverage.m1">6181.2000</property>
+  </element>
+  <element name="TurnLight.HazardCtrlLogic">
+    <uses provider="TurnLight.TurnLightSelector" strength="1"></uses>
+    <property name="coverage.m1">90.0000</property>
+  </element>
+  <element name="TurnLight.TurnLightCtrlLogic">
+    <uses provider="TurnLight.TurnLightSelector" strength="2"></uses>
+    <property name="coverage.m1">72.0000</property>
+  </element>
+  <element name="TurnLight.TurnLightDiag">
+    <uses provider="TurnLight.TurnLight_FLDouble_Open" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_FLOFF_Short" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_FRDouble_Open" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_FROFF_Short" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_RLDouble_Open" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_RLOFF_Short" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_RRDouble_Open" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_RRDouble_Short" strength="1"></uses>
+    <property name="coverage.m1">272.0000</property>
+  </element>
+  <element name="TurnLight.TurnLightSelector">
+    <uses provider="TurnLight.TurnLight_ALLOFF" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_ALLON" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_LeftLong" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_LeftLong1" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_LeftShort" strength="1"></uses>
+    <uses provider="TurnLight.TurnLight_RightShort" strength="1"></uses>
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_ALLOFF">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_ALLON">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_FLDouble_Open">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_FLOFF_Short">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_FRDouble_Open">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_FROFF_Short">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_LeftLong">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_LeftLong1">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_LeftShort">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_RLDouble_Open">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_RLOFF_Short">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_RRDouble_Open">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_RRDouble_Short">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+  <element name="TurnLight.TurnLight_RightShort">
+    <property name="coverage.m1">0.0000</property>
+  </element>
+</ldi>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ldi>
+  <element name="TurnLightArb">
+    <property name="coverage.m1">24.8000</property>
+  </element>
+  <element name="TurnLightArb.TurnLightOutArb">
+    <property name="coverage.m1">132.0000</property>
+  </element>
+</ldi>

@@ -114,9 +114,9 @@ func GenerateM3LDIXml() error {
 	layerMap := make(map[string]int)
 	// 첫 행은 헤더라고 가정하고 rows[1:]부터 처리 (기존 xlsx 로직과 동일)
 	for _, row := range rows[1:] {
-		if len(row) >= 4 {
+		if len(row) >= 3 {
 			name := strings.TrimSpace(row[0])
-			layerStr := strings.TrimSpace(row[3])
+			layerStr := strings.TrimSpace(row[2])
 			var layer int
 			fmt.Sscanf(layerStr, "%d", &layer)
 			layerMap[name] = layer

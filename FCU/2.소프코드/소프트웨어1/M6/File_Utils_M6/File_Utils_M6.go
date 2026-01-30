@@ -9,17 +9,17 @@ import (
 	"path/filepath"
 	"strings"
 
-	"FCU_Tools/SWC_Dependence"
 	"FCU_Tools/Public_data"
+	"FCU_Tools/SWC_Dependence"
 )
 
 // PrepareM6OutputDir M6의 출력 디렉터리를 초기화하고 준비한다.
 //
 // 프로세스:
-//   1) 현재 작업 디렉터리 basePath를 가져온다.  
-//   2) <basePath>/M6/output 경로를 생성한다.  
-//   3) output 디렉터리가 이미 존재하면 삭제 후 새로 만든다.  
-//   4) 경로를 Public_data.M6OutputlPath에 저장한다.  
+//  1. 현재 작업 디렉터리 basePath를 가져온다.
+//  2. <basePath>/M6/output 경로를 생성한다.
+//  3. output 디렉터리가 이미 존재하면 삭제 후 새로 만든다.
+//  4. 경로를 Public_data.M6OutputlPath에 저장한다.
 func PrepareM6OutputDir() error {
 	basePath, err := os.Getwd()
 	if err != nil {
@@ -43,22 +43,22 @@ func PrepareM6OutputDir() error {
 	return nil
 }
 
-// GenerateM6LDIXml component_info.csv의 ASIL 등급과 ASW 의존 관계를 읽어
+// GenerateM6LDIXml asw.csv의 ASIL 등급과 ASW 의존 관계를 읽어
 // M6 지표를 계산하고 M6.ldi.xml 및 M6.txt를 생성한다.
 //
 // 계산 로직:
-//   1) component_info.csv을 열고 3번째 열(ASIL 등급 A/B/C/D)을 읽어
-//      숫자 등급 1~4로 매핑하여 asilLevelMap에 저장한다.  
-//   2) SWC_Dependence.ExtractDependenciesRawFromASW 호출 → 컴포넌트 의존성(from→to, 연결 횟수와 인터페이스 타입 포함) 읽기.  
-//   3) 의존성 순회:  
-//        - 각 from 컴포넌트의 총 의존 수(sourceCount)를 집계한다.  
-//        - 만약 from의 ASIL 등급 < to의 ASIL 등급이면 → 위반으로 판정:  
-//            * violationMap[from] += count  
-//            * M6.txt에 "from (ASIL x) → to (ASIL y)" 한 줄 기록  
-//   4) 통계 결과를 기반으로 각 컴포넌트에 대해 LDI 요소 생성, 다음 속성 포함:  
-//        - coverage.m6     = 위반 의존 횟수  
-//        - coverage.m6demo = 전체 의존 횟수  
-//   5) 결과를 M6/output/M6.ldi.xml에 출력한다.  
+//  1. asw.csv을 열고 5번째 열(ASIL 등급 A/B/C/D)을 읽어
+//     숫자 등급 1~4로 매핑하여 asilLevelMap에 저장한다.
+//  2. SWC_Dependence.ExtractDependenciesRawFromASW 호출 → 컴포넌트 의존성(from→to, 연결 횟수와 인터페이스 타입 포함) 읽기.
+//  3. 의존성 순회:
+//     - 각 from 컴포넌트의 총 의존 수(sourceCount)를 집계한다.
+//     - 만약 from의 ASIL 등급 < to의 ASIL 등급이면 → 위반으로 판정:
+//     * violationMap[from] += count
+//     * M6.txt에 "from (ASIL x) → to (ASIL y)" 한 줄 기록
+//  4. 통계 결과를 기반으로 각 컴포넌트에 대해 LDI 요소 생성, 다음 속성 포함:
+//     - coverage.m6     = 위반 의존 횟수
+//     - coverage.m6demo = 전체 의존 횟수
+//  5. 결과를 M6/output/M6.ldi.xml에 출력한다.
 func GenerateM6LDIXml() error {
 	type Property struct {
 		XMLName xml.Name `xml:"property"`
@@ -75,11 +75,10 @@ func GenerateM6LDIXml() error {
 		Items   []Element `xml:"element"`
 	}
 
-	//  Step 1: component_info.csv에서 ASIL 등급(3열) 추출
-	//  (변수명은 *.xlsx지만, 실제로는 component_info.csv 경로가 들어 있음: M3/M4/M5와 동일 패턴)
-	asilFile, err := os.Open(Public_data.M3component_infoxlsxPath)
+	//  Step 1: asw.csv에서 ASIL 등급(5열) 추출
+	asilFile, err := os.Open(Public_data.ConnectorFilePath)
 	if err != nil {
-		return fmt.Errorf("component_info.csv 열기 실패: %v", err)
+		return fmt.Errorf("asw.csv 열기 실패: %v", err)
 	}
 	defer asilFile.Close()
 
@@ -89,19 +88,28 @@ func GenerateM6LDIXml() error {
 
 	rows, err := reader.ReadAll()
 	if err != nil {
-		return fmt.Errorf("component_info.csv 컨텐츠를 읽지 못했습니다: %v", err)
+		return fmt.Errorf("asw.csv 컨텐츠를 읽지 못했습니다: %v", err)
 	}
 
-	asilMap := map[string]int{"A": 1, "B": 2, "C": 3, "D": 4}
+	asilMap := map[string]int{"QM": 0, "A": 1, "B": 2, "C": 3, "D": 4}
 	asilLevelMap := make(map[string]int)
 
-	// 첫 행은 헤더라고 가정하고 rows[1:]부터 처리 (기존 xlsx 로직과 동일)
+	// 첫 행은 헤더라고 가정하고 rows[1:]부터 처리
 	for _, row := range rows[1:] {
-		if len(row) < 3 {
+		if len(row) < 5 {
 			continue
 		}
-		component := strings.TrimSpace(row[0])
-		asil := strings.ToUpper(strings.TrimSpace(row[2]))
+		component := strings.TrimSpace(row[3])
+		if component == "" {
+			continue
+		}
+		if _, exists := asilLevelMap[component]; exists {
+			continue
+		}
+		asil := strings.ToUpper(strings.TrimSpace(row[4]))
+		if strings.HasPrefix(asil, "ASIL-") {
+			asil = strings.TrimPrefix(asil, "ASIL-")
+		}
 		if level, ok := asilMap[asil]; ok {
 			asilLevelMap[component] = level
 		}

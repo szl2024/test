@@ -1,6 +1,35 @@
 {
     "GraphicalInterface":{
         "PreCompExecutionDomainType":"Unset",
+        "RootInports":[
+            {
+                "Name":"CL1STAT",
+                "SampleTime":"-1"
+            },
+            {
+                "Name":"CL1STAT1",
+                "SampleTime":"-1"
+            },
+            {
+                "Name":"CL1STAT2",
+                "SampleTime":"-1"
+            },
+            {
+                "Name":"CL1STAT3",
+                "SampleTime":"-1"
+            }
+        ],
+        "RootOutports":[
+            {
+                "Name":"CM2CNTL1"
+            },
+            {
+                "Name":"CM2CNTL2"
+            },
+            {
+                "Name":"CM2CNTL3"
+            }
+        ],
         "SimulinkSubDomainType":"Simulink",
         "SolverName":"VariableStepAuto"
     }
